@@ -12,8 +12,6 @@ import { MatchScoreInput } from "./match-score-input";
 import type { Player } from "@prisma/client";
 import { createMatch } from "@/utils/actions/createMatch";
 import { useAllPlayers } from "@/hooks/use-all-players";
-import { auth } from "@/auth";
-import prisma from "@/lib/db";
 import { useSession } from "next-auth/react";
 
 export default function AddMatchForm() {
