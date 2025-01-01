@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Player model for storing user information
+model Player {
+  id            String   @id @default(uuid()) @db.Uuid
+  name          String
+  email         String?  @unique
+  imageUrl      String?  @map("image_url")
+  xp            Int      @default(0)
+  wins          Int      @default(0)
+  losses        Int      @default(0)
+  currentStreak Int      @default(0) @map("current_streak")
+  longestStreak Int      @default(0) @map("longest_streak")
+  isAdmin       Boolean  @default(false) @map("is_admin")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  // Relations
+  wonMatches  Match[]           @relation("Winners")
+  lostMatches Match[]           @relation("Losers")
+  challenges  PlayerChallenge[]
+
+  @@index([email])
+}
+
+// Match model for recording game results
+model Match {
+  id          String    @id @default(uuid()) @db.Uuid
+  type        MatchType
+  winnerScore Int       @map("winner_score")
+  loserScore  Int       @map("loser_score")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  winners Player[] @relation("Winners")
+  losers  Player[] @relation("Losers")
+
+  @@map("matches")
+}
+
+// Challenge model for tracking achievements
+model Challenge {
+  id               String          @id @default(uuid()) @db.Uuid
+  title            String
+  description      String
+  requirementType  RequirementType @map("requirement_type") // Type of achievement
+  requirementValue Int             @map("requirement_value") // Value needed to complete
+  xpReward         Int             @map("xp_reward") // XP awarded on completion
+  isActive         Boolean         @default(true) @map("is_active")
+  createdAt        DateTime        @default(now()) @map("created_at")
+
+  // Relations
+  playerChallenges PlayerChallenge[]
+
+  @@map("challenges")
+}
+
+// Junction table for playerstats-challenge progress
+model PlayerChallenge {
+  id        String   @id @default(uuid()) @db.Uuid
+  progress  Int      @default(0)
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  player      Player    @relation(fields: [playerId], references: [id])
+  playerId    String    @map("player_id") @db.Uuid
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  challengeId String    @map("challenge_id") @db.Uuid
+
+  @@unique([playerId, challengeId])
+  @@map("player_challenges")
+}
+
+// Enum for match types
+enum MatchType {
+  singles
+  duo
+}
+
+// Enum for predefined achievement requirement types
+enum RequirementType {
+  winStreak // Number of consecutive wins
+  winCount // Total number of wins
+  lossCount // Total number of losses
+  xpGain // Accumulate a specific amount of XP
+  playMatches // Play a certain number of matches
+  specificWin // Win against specific players
+  matchTypeCount // Play or win matches of a specific type
+}
+
+// Season model for organizing gameplay into seasons
+model Season {
+  id        String   @id @default(uuid()) @db.Uuid
+  number    Int
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("seasons")
+}
