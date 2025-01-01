@@ -164,10 +164,11 @@ export default function AddMatchForm() {
       setLoserScore("");
 
       // Invalidate relevant queries to refresh data
-      queryClient.invalidateQueries({ queryKey: ["playerstats"] });
-      queryClient.invalidateQueries({ queryKey: ["recentmatches"] });
-      queryClient.invalidateQueries({ queryKey: ["topplayers"] });
       queryClient.invalidateQueries({ queryKey: ["players"] });
+      queryClient.invalidateQueries({ queryKey: ["playerChallenges"] });
+      queryClient.invalidateQueries({ queryKey: ["playerStats"] });
+      queryClient.invalidateQueries({ queryKey: ["recentMatches"] });
+      queryClient.invalidateQueries({ queryKey: ["topPlayers"] });
 
       toast({
         title: "Match recorded!",

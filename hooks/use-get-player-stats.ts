@@ -3,7 +3,7 @@ import { getPlayerStats } from "@/utils/actions/getPlayerStats";
 
 export function useGetPlayerStats() {
   return useQuery({
-    queryKey: ["playerstats"],
+    queryKey: ["playerStats"],
     queryFn: async () => {
       return await getPlayerStats();
     },

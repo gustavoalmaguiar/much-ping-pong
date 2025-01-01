@@ -3,7 +3,7 @@ import { getTopPlayers } from "@/utils/actions/getTopPlayers";
 
 export function useGetTopPlayers() {
   return useQuery({
-    queryKey: ["topplayers"],
+    queryKey: ["topPlayers"],
     queryFn: async () => {
       return await getTopPlayers();
     },

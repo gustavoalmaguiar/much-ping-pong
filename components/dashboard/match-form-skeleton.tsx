@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 export function MatchFormSkeleton() {
   return (
@@ -15,32 +16,39 @@ export function MatchFormSkeleton() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Winners Section Skeleton */}
           <div className="space-y-3">
-            <Skeleton className="h-5 w-16" />
+            <h3 className="font-medium">Winners</h3>
             <div className="space-y-2">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-10 w-full" />
-            </div>
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-4 w-16" /> {/* Label */}
+              <Skeleton className="h-10 w-full" /> {/* Player Select */}
             </div>
           </div>
 
           {/* Losers Section Skeleton */}
           <div className="space-y-3">
-            <Skeleton className="h-5 w-16" />
+            <h3 className="font-medium">Losers</h3>
             <div className="space-y-2">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-10 w-full" />
-            </div>
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-16" />
-              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-4 w-16" /> {/* Label */}
+              <Skeleton className="h-10 w-full" /> {/* Player Select */}
             </div>
           </div>
         </div>
 
-        <Skeleton className="h-10 w-full" />
+        {/* Score Section Skeleton */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-16" /> {/* Label */}
+            <Skeleton className="h-9 w-full" /> {/* Score Input */}
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-16" /> {/* Label */}
+            <Skeleton className="h-9 w-full" /> {/* Score Input */}
+          </div>
+        </div>
+
+        {/* Submit Button Skeleton */}
+        <Button className="w-full">
+            Record Match
+        </Button>
       </div>
     </Card>
   );

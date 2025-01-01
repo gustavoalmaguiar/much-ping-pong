@@ -3,7 +3,7 @@ import { getRecentMatches } from "@/utils/actions/getRecentMatches";
 
 export function useGetRecentMatches() {
   return useQuery({
-    queryKey: ["recentmatches"],
+    queryKey: ["recentMatches"],
     queryFn: async () => {
       return await getRecentMatches();
     },
