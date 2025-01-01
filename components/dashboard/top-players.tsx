@@ -35,9 +35,9 @@ export default function TopPlayers() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2">
+        <div className="space-y-4 p-2">
           {topPlayers.map((player: TopPlayer) => (
-            <div key={player.id} className="flex items-center space-x-4 p-2 hover:bg-muted/50 transition-colors">
+            <div key={player.id} className="flex items-center space-x-4 hover:bg-muted/50 transition-colors">
               <Avatar className="h-8 w-8">
                 <AvatarImage
                   src={player.imageUrl ?? undefined}
