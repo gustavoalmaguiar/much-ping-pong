@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { Trophy, Target, Zap } from "lucide-react";
-import { useGetPlayerStats } from "@/hooks/use-get-player-stats";
+import { useGetPlayerStats } from "@/utils/hooks/use-get-player-stats";
 
 export default function PlayerStats() {
   const { data: profile, isLoading } = useGetPlayerStats();

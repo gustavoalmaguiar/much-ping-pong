@@ -74,3 +74,32 @@ export async function fetchTopPlayers(take: number) {
     },
   });
 }
+
+export async function fetchAllMatches() {
+  return prisma.match.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      type: true,
+      winnerScore: true,
+      loserScore: true,
+      createdAt: true,
+      winners: {
+        select: {
+          id: true,
+          name: true,
+          imageUrl: true,
+        },
+      },
+      losers: {
+        select: {
+          id: true,
+          name: true,
+          imageUrl: true,
+        },
+      },
+    },
+  });
+}

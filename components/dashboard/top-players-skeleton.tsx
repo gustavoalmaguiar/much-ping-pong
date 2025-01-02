@@ -24,7 +24,7 @@ export default function TopPlayersSkeleton() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Trophy className="h-5 w-5 text-yellow-500" />
-          <span className="text-lg">Top Players</span>
+          Top Players
         </CardTitle>
       </CardHeader>
       <CardContent>

@@ -10,7 +10,7 @@ export async function getAllPlayers() {
         name: true,
       },
       orderBy: {
-        name: "asc",
+        xp: "desc",
       },
     });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetRecentMatches } from "@/hooks/use-get-recent-matches";
+import { useGetRecentMatches } from "@/utils/hooks/use-get-recent-matches";
 import RecentMatchesSkeleton from "@/components/dashboard/recent-matches-skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trophy, Users2 } from "lucide-react";

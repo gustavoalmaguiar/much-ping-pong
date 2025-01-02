@@ -7,7 +7,8 @@ import { Trophy, Users, User, Target, Calendar, Home, Menu, X } from "lucide-rea
 import { AuthButton } from "@/components/auth/auth-button";
 import Image from "next/image";
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const navItems = [
   { href: "/", label: "Dashboard", icon: Home },
@@ -56,9 +57,10 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* Auth Button & Mobile Menu Button */}
+          {/* Auth Button, Theme Toggle & Mobile Menu Button */}
           <div className="flex items-center gap-2">
-            <div className="hidden md:block">
+            <div className="hidden md:flex items-center gap-2">
+              <ModeToggle />
               <AuthButton />
             </div>
             <Button
@@ -97,7 +99,8 @@ export function Navbar() {
                 <span>{label}</span>
               </Link>
             ))}
-            <div className="pt-2 pb-1">
+            <div className="pt-2 pb-1 flex items-center gap-2">
+              <ModeToggle />
               <AuthButton />
             </div>
           </div>

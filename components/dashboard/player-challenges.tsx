@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Target, Trophy } from "lucide-react";
-import { useGetPlayerChallenges } from "@/hooks/use-get-player-challenges";
+import { useGetPlayerChallenges } from "@/utils/hooks/use-get-player-challenges";
 import PlayerChallengesSkeleton from "@/components/dashboard/player-challenges-skeleton";
 import PlayerChallengesError from "@/components/dashboard/player-challenges-error";
 
@@ -18,7 +18,7 @@ export default function PlayerChallenges() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Target className="h-5 w-5 text-blue-500" />
-          <span className="text-lg">Active Challenges</span>
+          Active Challenges
         </CardTitle>
       </CardHeader>
       <CardContent>

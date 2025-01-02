@@ -6,7 +6,7 @@ import TopPlayers from "@/components/dashboard/top-players";
 
 export default function Dashboard() {
   return (
-    <div className="flex flex-col gap-6 px-4 lg:px-8 py-8">
+    <div className="flex flex-col gap-6">
       <AddMatchForm />
 
       {/* Second Row: Sidebar Components */}

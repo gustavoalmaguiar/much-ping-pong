@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import TopPlayersSkeleton from "@/components/dashboard/top-players-skeleton";
-import { useGetTopPlayers } from "@/hooks/use-get-top-players";
+import { useGetTopPlayers } from "@/utils/hooks/use-get-top-players";
 import { Trophy } from "lucide-react";
 
 interface TopPlayer {
@@ -31,7 +31,7 @@ export default function TopPlayers() {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Trophy className="h-5 w-5 text-yellow-500" />
-          <span className="text-lg">Top Players</span>
+          Top Players
         </CardTitle>
       </CardHeader>
       <CardContent>

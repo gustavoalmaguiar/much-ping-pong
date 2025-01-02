@@ -4,14 +4,14 @@ import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/utils/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { MatchFormSkeleton } from "./match-form-skeleton";
 import { MatchPlayerSelect } from "./match-player-select";
 import { MatchScoreInput } from "./match-score-input";
 import type { Player } from "@prisma/client";
-import { createMatch } from "@/utils/actions/createMatch";
-import { useAllPlayers } from "@/hooks/use-all-players";
+import { createMatch } from "@/utils/actions/create-match";
+import { useAllPlayers } from "@/utils/hooks/use-all-players";
 import { useSession } from "next-auth/react";
 
 export default function AddMatchForm() {
