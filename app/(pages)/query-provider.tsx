@@ -7,7 +7,7 @@ interface TanstackProviderProps {
   children: React.ReactNode;
 }
 
-export const Provider = ({ children }: TanstackProviderProps) => {
+export const QueryProvider = ({ children }: TanstackProviderProps) => {
   const [queryClient] = useState(() => new QueryClient());
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

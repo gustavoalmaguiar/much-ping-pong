@@ -23,7 +23,9 @@ export async function getAllPlayerRankings() {
       ...player,
       rank: index + 1,
       level: calculateLevel(player.xp),
-      winRate: Math.round((player.wins / (player.wins + player.losses)) * 100 || 0),
+      winRate: Math.round(
+        (player.wins / (player.wins + player.losses)) * 100 || 0,
+      ),
     }));
 
     return playersWithWinRateAndLevel;

@@ -10,12 +10,13 @@ import { ChallengeForm } from "@/components/admin/challenge-form";
 import { Challenge, PlayerChallenge } from "@/types/challenges";
 import { createChallenge } from "@/utils/actions/create-challenge";
 import { useToast } from "@/utils/hooks/use-toast";
-import { revalidatePath } from "next/cache";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 interface ChallengesClientProps {
   initialChallenges: Challenge[];
   initialPlayerChallenges: PlayerChallenge[];
-  defaultTab: "active" | "completed" | "create";
+  defaultTab: "active" | "completed";
   isAdmin: boolean;
 }
 
@@ -26,30 +27,34 @@ export function ChallengesClient({
   isAdmin,
 }: ChallengesClientProps) {
   const [challenges, setChallenges] = useState<Challenge[]>(initialChallenges);
-  const [playerChallenges, setPlayerChallenges] = useState<PlayerChallenge[]>(initialPlayerChallenges);
-  const [activeTab, setActiveTab] = useState<"active" | "completed" | "create">(
-    !isAdmin && defaultTab === "create" ? "active" : defaultTab
+  const [playerChallenges, setPlayerChallenges] = useState<PlayerChallenge[]>(
+    initialPlayerChallenges,
   );
+  const [activeTab, setActiveTab] = useState<"active" | "completed">(
+    defaultTab,
+  );
+  const [showForm, setShowForm] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const { toast } = useToast();
 
   const handleTabChange = (value: string) => {
-    if (value === "create" && !isAdmin) return;
-    setActiveTab(value as "active" | "completed" | "create");
+    setActiveTab(value as "active" | "completed");
     router.push(`${pathname}?tab=${value}`);
   };
 
-  const addChallenge = async (newChallenge: Omit<Challenge, "id" | "createdAt">) => {
+  const addChallenge = async (
+    newChallenge: Omit<Challenge, "id" | "createdAt">,
+  ) => {
     try {
       const result = await createChallenge(newChallenge);
 
-      if ('error' in result) {
+      if ("error" in result) {
         toast({
           title: "Error",
           description: result.error,
           variant: "destructive",
-        })
+        });
         return;
       }
 
@@ -59,8 +64,8 @@ export function ChallengesClient({
         variant: "default",
       });
 
-      // Optionally switch to active tab after creation
-      handleTabChange("active");
+      setShowForm(false);
+      window.location.reload();
     } catch (error) {
       toast({
         title: "Error",
@@ -75,56 +80,59 @@ export function ChallengesClient({
     (challenge) =>
       challenge.isActive &&
       playerChallenges.some(
-        (pc) => pc.challengeId === challenge.id && !pc.completed
-      )
+        (pc) => pc.challengeId === challenge.id && !pc.completed,
+      ),
   );
 
   const completedChallenges = challenges.filter((challenge) =>
     playerChallenges.some(
-      (pc) => pc.challengeId === challenge.id && pc.completed
-    )
+      (pc) => pc.challengeId === challenge.id && pc.completed,
+    ),
   );
 
   return (
     <div className="container mx-auto px-4 py-8">
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Challenges</CardTitle>
+          {isAdmin && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setShowForm(!showForm)}
+              className="h-8 w-8 rounded-full"
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          )}
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue={activeTab} onValueChange={handleTabChange}>
-            <TabsList className="grid w-full grid-cols-3 mb-8">
-              <TabsTrigger value="active">Active</TabsTrigger>
-              <TabsTrigger value="completed">Completed</TabsTrigger>
-              <TabsTrigger
-                value="create"
-                disabled={!isAdmin}
-                className={!isAdmin ? "cursor-not-allowed opacity-50" : ""}
-              >
-                Create
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="active">
-              <ActiveChallenges
-                challenges={activeChallenges}
-                playerChallenges={playerChallenges}
-              />
-            </TabsContent>
-            <TabsContent value="completed">
-              <CompletedChallenges
-                challenges={completedChallenges}
-                playerChallenges={playerChallenges}
-              />
-            </TabsContent>
-            {isAdmin && (
-              <TabsContent value="create">
-                <ChallengeForm onSubmit={addChallenge} />
+          {showForm && isAdmin ? (
+            <div className="mb-8">
+              <ChallengeForm onSubmit={addChallenge} />
+            </div>
+          ) : (
+            <Tabs defaultValue={activeTab} onValueChange={handleTabChange}>
+              <TabsList className="grid w-full grid-cols-2 mb-8">
+                <TabsTrigger value="active">Active</TabsTrigger>
+                <TabsTrigger value="completed">Completed</TabsTrigger>
+              </TabsList>
+              <TabsContent value="active">
+                <ActiveChallenges
+                  challenges={activeChallenges}
+                  playerChallenges={playerChallenges}
+                />
               </TabsContent>
-            )}
-          </Tabs>
+              <TabsContent value="completed">
+                <CompletedChallenges
+                  challenges={completedChallenges}
+                  playerChallenges={playerChallenges}
+                />
+              </TabsContent>
+            </Tabs>
+          )}
         </CardContent>
       </Card>
     </div>
   );
 }
-

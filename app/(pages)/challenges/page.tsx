@@ -20,7 +20,7 @@ export default async function ChallengesPage({
   // Fetch player to check admin status
   const player = await prisma.user.findUnique({
     where: { id: userId },
-    select: { isAdmin: true }
+    select: { isAdmin: true },
   });
 
   const { tab } = await searchParams;
@@ -32,9 +32,8 @@ export default async function ChallengesPage({
     <ChallengesClient
       initialChallenges={challenges as Challenge[]}
       initialPlayerChallenges={playerChallenges as PlayerChallenge[]}
-      defaultTab={(tab as "active" | "completed" | "create") || "active"}
+      defaultTab={(tab as "active" | "completed") || "active"}
       isAdmin={player?.isAdmin ?? false}
     />
   );
 }
-

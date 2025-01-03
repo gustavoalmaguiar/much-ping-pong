@@ -5,28 +5,20 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/data-table";
 import { columns } from "@/components/rankings/rankings-table-columns";
-
-type Player = {
-  id: string;
-  name: string;
-  rank: number;
-  level: number;
-  xp: number;
-  winRate: number;
-  wins: number;
-  losses: number;
-};
+import { PlayerDTO } from "@/types/player";
 
 interface RankingsClientProps {
-  initialPlayers: Player[];
+  initialPlayers: PlayerDTO[];
 }
 
-export default function RankingsClient({ initialPlayers }: RankingsClientProps) {
+export default function RankingsClient({
+  initialPlayers,
+}: RankingsClientProps) {
   const [players, setPlayers] = useState(initialPlayers);
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredPlayers = players.filter((player) =>
-    player.name.toLowerCase().includes(searchTerm.toLowerCase())
+    player.name?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -48,4 +40,3 @@ export default function RankingsClient({ initialPlayers }: RankingsClientProps) 
     </div>
   );
 }
-

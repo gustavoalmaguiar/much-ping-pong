@@ -1,18 +1,8 @@
 "use client";
 
+import { PlayerDTO } from "@/types/player";
 import { ColumnDef } from "@tanstack/react-table";
-import { Trophy, Medal, Award } from 'lucide-react';
-
-type Player = {
-  id: string;
-  name: string;
-  rank: number;
-  level: number;
-  xp: number;
-  winRate: number;
-  wins: number;
-  losses: number;
-};
+import { Trophy, Medal, Award } from "lucide-react";
 
 const getRankIcon = (rank: number) => {
   switch (rank) {
@@ -27,7 +17,7 @@ const getRankIcon = (rank: number) => {
   }
 };
 
-export const columns: ColumnDef<Player>[] = [
+export const columns: ColumnDef<PlayerDTO>[] = [
   {
     accessorKey: "rank",
     header: "Rank",
@@ -75,4 +65,3 @@ export const columns: ColumnDef<Player>[] = [
     },
   },
 ];
-

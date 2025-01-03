@@ -101,6 +101,7 @@ model Challenge {
   xpReward         Int             @map("xp_reward") // XP awarded on completion
   isActive         Boolean         @default(true) @map("is_active")
   createdAt        DateTime        @default(now()) @map("created_at")
+  matchType        MatchType?      @map("match_type") // Type of match required
 
   // Relations
   playerChallenges PlayerChallenge[]
@@ -138,7 +139,6 @@ enum RequirementType {
   lossCount // Total number of losses
   xpGain // Accumulate a specific amount of XP
   playMatches // Play a certain number of matches
-  specificWin // Win against specific players
   matchTypeCount // Play or win matches of a specific type
 }
 

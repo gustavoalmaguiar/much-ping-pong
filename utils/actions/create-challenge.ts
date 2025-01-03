@@ -5,7 +5,9 @@ import prisma from "@/lib/db";
 import { Challenge } from "@/types/challenges";
 import { verifyPlayerChallengeProgress } from "@/utils/actions/verify-challenge-progress";
 
-export const createChallenge = async (data: Omit<Challenge, "id" | "createdAt">) => {
+export const createChallenge = async (
+  data: Omit<Challenge, "id" | "createdAt">,
+) => {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -16,7 +18,7 @@ export const createChallenge = async (data: Omit<Challenge, "id" | "createdAt">)
   // Verify user is admin
   const player = await prisma.user.findUnique({
     where: { id: userId },
-    select: { isAdmin: true }
+    select: { isAdmin: true },
   });
 
   if (!player?.isAdmin) {
@@ -33,6 +35,7 @@ export const createChallenge = async (data: Omit<Challenge, "id" | "createdAt">)
           description: data.description,
           requirementType: data.requirementType,
           requirementValue: data.requirementValue,
+          matchType: data.matchType,
           xpReward: data.xpReward,
           isActive: data.isActive,
         },
@@ -40,10 +43,6 @@ export const createChallenge = async (data: Omit<Challenge, "id" | "createdAt">)
 
       // Get all active players
       const players = await tx.user.findMany({
-        where: {
-          // Add any conditions for active players
-          // For example: isActive: true
-        },
         select: {
           id: true,
         },
@@ -61,7 +60,7 @@ export const createChallenge = async (data: Omit<Challenge, "id" | "createdAt">)
 
       // Verify initial progress for each player
       const verificationPromises = players.map((player) =>
-        verifyPlayerChallengeProgress(player.id, challenge.id, tx)
+        verifyPlayerChallengeProgress(player.id, challenge.id, tx),
       );
 
       // Wait for all verifications to complete

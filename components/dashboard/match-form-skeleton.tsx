@@ -46,9 +46,7 @@ export function MatchFormSkeleton() {
         </div>
 
         {/* Submit Button Skeleton */}
-        <Button className="w-full">
-            Record Match
-        </Button>
+        <Button className="w-full">Record Match</Button>
       </div>
     </Card>
   );

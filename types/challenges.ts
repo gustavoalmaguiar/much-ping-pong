@@ -11,7 +11,6 @@ export const requirementTypeMap: Record<RequirementType, string> = {
   lossCount: "Total Losses",
   xpGain: "XP Gain",
   playMatches: "Play Matches",
-  specificWin: "Specific Win Against a Player",
   matchTypeCount: "Match Type Count",
 };
 
@@ -28,10 +27,7 @@ export interface Challenge {
   requirementValue: number;
   xpReward: number;
   isActive: boolean;
-  condition?: {
-    opponent?: string;
-    matchType?: MatchType;
-  } | string;
+  matchType?: MatchType;
 }
 
 export interface PlayerChallenge {
@@ -41,3 +37,6 @@ export interface PlayerChallenge {
   completed: boolean;
 }
 
+export type NewChallenge = Omit<Challenge, "id" | "createdAt"> & {
+  matchType: MatchType | null;
+};

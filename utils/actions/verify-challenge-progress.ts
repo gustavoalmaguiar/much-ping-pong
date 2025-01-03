@@ -4,7 +4,7 @@ import { PlayerChallenge } from "@prisma/client";
 export async function verifyPlayerChallengeProgress(
   playerId: string,
   challengeId?: string,
-  tx?: any
+  tx?: any,
 ) {
   const db = tx || prisma;
   // Get either a specific challenge or all active challenges
@@ -25,6 +25,7 @@ export async function verifyPlayerChallengeProgress(
     let completed = false;
 
     // Calculate current progress based on challenge type
+    console.log("Checking challenge", challenge);
     switch (challenge.requirementType) {
       case "winStreak":
         progress = player.currentStreak || 0;
@@ -61,6 +62,22 @@ export async function verifyPlayerChallengeProgress(
         });
         completed = progress >= challenge.requirementValue;
         break;
+
+      case "matchTypeCount":
+        console.log("Checking match type", challenge.matchType);
+        console.log("Checking player", playerId);
+        progress = await db.match.count({
+          where: {
+            OR: [
+              { winners: { some: { id: playerId } } },
+              { losers: { some: { id: playerId } } },
+            ],
+            type: challenge.matchType,
+          },
+        });
+        console.log("Progress", progress);
+        completed = progress >= challenge.requirementValue;
+        break;
     }
 
     // Update the player challenge record
@@ -76,7 +93,7 @@ export async function verifyPlayerChallengeProgress(
           progress,
           completed,
         },
-      })
+      }),
     );
 
     // If newly completed, award XP

@@ -26,7 +26,7 @@ interface Match {
 }
 
 function PlayerAvatar({ player }: { player: Player }) {
-  const name = player ? player.name ?? "Player" : "Player";
+  const name = player ? (player.name ?? "Player") : "Player";
   return (
     <Avatar className="h-8 w-8 border-2 border-background">
       <AvatarImage src={player.image ?? undefined} alt={name} />

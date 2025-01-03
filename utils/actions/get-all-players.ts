@@ -8,6 +8,7 @@ export async function getAllPlayers() {
       select: {
         id: true,
         name: true,
+        image: true,
       },
       orderBy: {
         xp: "desc",

@@ -27,4 +27,4 @@ export async function getAllMatches() {
     console.error("Error fetching all matches:", error);
     throw new Error("Failed to fetch all matches");
   }
-};
+}

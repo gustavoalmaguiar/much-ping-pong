@@ -9,7 +9,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { MatchFormSkeleton } from "./match-form-skeleton";
 import { MatchPlayerSelect } from "./match-player-select";
 import { MatchScoreInput } from "./match-score-input";
-import type { User } from "@prisma/client";
 import { createMatch } from "@/utils/actions/create-match";
 import { useAllPlayers } from "@/utils/hooks/use-all-players";
 import { useSession } from "next-auth/react";
@@ -36,19 +35,16 @@ export default function AddMatchForm() {
       [winner1, winner2, loser1, loser2].filter(Boolean),
     );
 
+    const filterAndMapPlayers = (currentId: string) =>
+      players
+        .filter((u) => !selectedPlayers.has(u.id) || u.id === currentId)
+        .map((u) => ({ id: u.id, name: u.name || "" })); // Map to Player type
+
     return {
-      winner1: players.filter(
-        (u) => !selectedPlayers.has(u.id) || u.id === winner1,
-      ) as User[],
-      winner2: players.filter(
-        (u) => !selectedPlayers.has(u.id) || u.id === winner2,
-      ) as User[],
-      loser1: players.filter(
-        (u) => !selectedPlayers.has(u.id) || u.id === loser1,
-      ) as User[],
-      loser2: players.filter(
-        (u) => !selectedPlayers.has(u.id) || u.id === loser2,
-      ) as User[],
+      winner1: filterAndMapPlayers(winner1),
+      winner2: filterAndMapPlayers(winner2),
+      loser1: filterAndMapPlayers(loser1),
+      loser2: filterAndMapPlayers(loser2),
     };
   }, [players, winner1, winner2, loser1, loser2]);
 
@@ -86,13 +82,13 @@ export default function AddMatchForm() {
       return;
     }
     // Only allow users to log matches where they are one of the players.
-    const player = session.user.id;
+    const userPlayer = session.user.id;
     if (
       !(
-        player === winner1 ||
-        player === winner2 ||
-        player === loser1 ||
-        player === loser2
+        userPlayer === winner1 ||
+        userPlayer === winner2 ||
+        userPlayer === loser1 ||
+        userPlayer === loser2
       )
     ) {
       toast({

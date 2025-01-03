@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from 'react';
-import { CheckCircle } from 'lucide-react';
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Challenge, PlayerChallenge } from "@/types/challenges";
+import { ChallengeCard } from "@/components/challenges/challenge-card";
 
 interface CompletedChallengesProps {
   challenges: Challenge[];
@@ -20,39 +20,39 @@ export function CompletedChallenges({
     return <div className="text-muted-foreground">No completed challenges</div>;
   }
 
-  const sortedChallenges = [...challenges].sort((a, b) => b.xpReward - a.xpReward);
+  const sortedChallenges = [...challenges].sort((a, b) => {
+    const aProgress =
+      playerChallenges.find((pc) => pc.challengeId === a.id)?.progress || 0;
+    const bProgress =
+      playerChallenges.find((pc) => pc.challengeId === b.id)?.progress || 0;
+    return bProgress / b.requirementValue - aProgress / a.requirementValue;
+  });
 
   return (
     <div className="space-y-6">
       {sortedChallenges.slice(0, visibleChallenges).map((challenge) => {
         const playerChallenge = playerChallenges.find(
-          (pc) => pc.challengeId === challenge.id
+          (pc) => pc.challengeId === challenge.id,
         );
+        const currentValue = playerChallenge ? playerChallenge.progress : 0;
+        let percentage = Math.round(
+          (currentValue / challenge.requirementValue) * 100,
+        );
+        percentage = percentage > 100 ? 100 : percentage;
 
         return (
-          <div
+          <ChallengeCard
             key={challenge.id}
-            className="flex items-center justify-between p-6 bg-muted rounded-lg"
-          >
-            <div className="flex items-start gap-4">
-              <CheckCircle className="h-6 w-6 text-green-500 mt-1" />
-              <div>
-                <h3 className="font-semibold text-lg">{challenge.title}</h3>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {challenge.description}
-                </p>
-              </div>
-            </div>
-            <div className="text-lg font-medium text-green-500">
-              +{challenge.xpReward} XP
-            </div>
-          </div>
+            currentValue={currentValue}
+            percentage={percentage}
+            challenge={challenge}
+          />
         );
       })}
       {visibleChallenges < challenges.length && (
         <div className="text-center mt-6">
           <Button
-            onClick={() => setVisibleChallenges(prev => prev + 10)}
+            onClick={() => setVisibleChallenges((prev) => prev + 10)}
             variant="outline"
           >
             Load More
@@ -62,4 +62,3 @@ export function CompletedChallenges({
     </div>
   );
 }
-

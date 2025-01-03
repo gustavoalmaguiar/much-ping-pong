@@ -24,7 +24,7 @@ export const getPlayerChallenges = async () => {
         challenge: true,
       },
       orderBy: {
-        progress: 'desc',
+        progress: "desc",
       },
       take: 2,
     });

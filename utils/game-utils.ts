@@ -10,9 +10,9 @@
  * @returns Current level number
  */
 export function calculateLevel(xp: number): number {
-  const tier1 = 10 * 100;  // First 10 levels need 100 XP each
-  const tier2 = 10 * 150;  // Next 10 levels need 150 XP each
-  const tier3 = 10 * 225;  // Next 10 levels need 225 XP each
+  const tier1 = 10 * 100; // First 10 levels need 100 XP each
+  const tier2 = 10 * 150; // Next 10 levels need 150 XP each
+  const tier3 = 10 * 225; // Next 10 levels need 225 XP each
 
   if (xp < tier1) {
     return Math.floor(xp / 100) + 1;
@@ -86,10 +86,14 @@ export function calculateMatchXP(
   // Loser XP Calculation
   const loserBaseXP = 10; // Base XP for participating
   const fightingSpiritBonus = Math.min(8, Math.floor(loserScore * 0.8)); // Up to 8 XP based on points scored
-  const loserCloseMatchBonus = scoreDifference <= 2 ? 7 : // 7 XP for extremely close matches
-                              scoreDifference <= 4 ? 5 : // 5 XP for very close matches
-                              scoreDifference <= 6 ? 3 : // 3 XP for moderately close matches
-                              0; // No bonus for one-sided matches
+  const loserCloseMatchBonus =
+    scoreDifference <= 2
+      ? 7 // 7 XP for extremely close matches
+      : scoreDifference <= 4
+        ? 5 // 5 XP for very close matches
+        : scoreDifference <= 6
+          ? 3 // 3 XP for moderately close matches
+          : 0; // No bonus for one-sided matches
 
   const loserXP = loserBaseXP + fightingSpiritBonus + loserCloseMatchBonus;
 

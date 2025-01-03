@@ -1,6 +1,10 @@
 import prisma from "@/lib/db";
 
-export async function evaluateAchievements(playerId: string, isWinner: boolean, tx: any) {
+export async function evaluateAchievements(
+  playerId: string,
+  isWinner: boolean,
+  tx: any,
+) {
   const db = tx || prisma;
   const player = await db.user.findUnique({ where: { id: playerId } });
 
@@ -20,6 +24,7 @@ export async function evaluateAchievements(playerId: string, isWinner: boolean, 
   for (const challenge of activeChallenges) {
     let progress = 0;
     let completed = false;
+    console.log("Checking challenge", challenge);
     switch (challenge.requirementType) {
       case "winStreak":
         if (isWinner && player?.currentStreak) {
@@ -62,7 +67,10 @@ export async function evaluateAchievements(playerId: string, isWinner: boolean, 
       case "playMatches":
         progress = await db.match.count({
           where: {
-            OR: [{ winners: { some: { id: playerId } } }, { losers: { some: { id: playerId } } }],
+            OR: [
+              { winners: { some: { id: playerId } } },
+              { losers: { some: { id: playerId } } },
+            ],
           },
         });
         if (progress >= challenge.requirementValue) {
@@ -70,20 +78,20 @@ export async function evaluateAchievements(playerId: string, isWinner: boolean, 
         }
         break;
 
-      // case "specificWin":
-      //   if (isWinner) {
-      //     const specificWins = await prisma.match.count({
-      //       where: {
-      //         winners: { some: { id: playerId } },
-      //         losers: { some: { id: { in: condition.opponents } } },
-      //       },
-      //     });
-      //     if (specificWins >= challenge.requirementValue) {
-      //       completed = true;
-      //       progress = challenge.requirementValue;
-      //     }
-      //   }
-      //   break;
+      case "matchTypeCount":
+        progress = await db.match.count({
+          where: {
+            OR: [
+              { winners: { some: { id: playerId } } },
+              { losers: { some: { id: playerId } } },
+            ],
+            type: challenge.matchType,
+          },
+        });
+        if (progress >= challenge.requirementValue) {
+          completed = true;
+        }
+        break;
 
       default:
         console.warn(`Unknown requirement type: ${challenge.requirementType}`);

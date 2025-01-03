@@ -11,8 +11,10 @@ export default function PlayerChallengesError() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground mt-4">Failed to load challenges</p>
+        <p className="text-sm text-muted-foreground mt-4">
+          Failed to load challenges
+        </p>
       </CardContent>
     </Card>
-  )
+  );
 }

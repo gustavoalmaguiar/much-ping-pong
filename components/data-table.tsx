@@ -1,4 +1,3 @@
-
 "use client";
 
 import {
@@ -65,7 +64,7 @@ export function DataTable<TData, TValue>({
                       >
                         {flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                         {{
                           asc: " 🔼",
@@ -89,7 +88,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -136,4 +135,3 @@ export function DataTable<TData, TValue>({
     </div>
   );
 }
-

@@ -1,7 +1,11 @@
 "use client";
 
 import PlayerStatsSkeleton from "@/components/dashboard/player-stats-skeleton";
-import { calculateLevel, calculateXPForNextLevel, getLevelTier } from "@/utils/game-utils";
+import {
+  calculateLevel,
+  calculateXPForNextLevel,
+  getLevelTier,
+} from "@/utils/game-utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
@@ -22,17 +26,14 @@ export default function PlayerStats() {
   const nextLevelXP = calculateXPForNextLevel(level);
   const levelProgress =
     ((profile.xp - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
-  const name = profile ? profile.name ?? "Player" : "Player";
+  const name = profile ? (profile.name ?? "Player") : "Player";
   const tier = getLevelTier(level);
   return (
     <Card>
       <CardContent className="pt-6">
         <div className="flex items-center gap-4">
           <Avatar className="h-12 w-12 border-2 border-primary">
-            <AvatarImage
-              src={profile.image ?? undefined}
-              alt={name}
-            />
+            <AvatarImage src={profile.image ?? undefined} alt={name} />
             <AvatarFallback>{name[0]}</AvatarFallback>
           </Avatar>
           <div className="grid">

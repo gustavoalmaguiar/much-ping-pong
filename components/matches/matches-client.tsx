@@ -24,9 +24,11 @@ export default function MatchesClient({ initialMatches }: MatchesClientProps) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredMatches = matches.filter((match) =>
-    match.winners.concat(match.losers).some((player) =>
-      player.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    match.winners
+      .concat(match.losers)
+      .some((player) =>
+        player.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
   );
 
   return (
@@ -48,4 +50,3 @@ export default function MatchesClient({ initialMatches }: MatchesClientProps) {
     </div>
   );
 }
-

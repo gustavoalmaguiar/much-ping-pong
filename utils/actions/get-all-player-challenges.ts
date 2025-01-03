@@ -27,9 +27,9 @@ export const getAllPlayerChallenges = async () => {
             description: true,
             requirementValue: true,
             xpReward: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
     return playerChallenges;
   } catch (error) {

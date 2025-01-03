@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@/app/globals.css";
 import { SessionProvider } from "next-auth/react";
-import { Provider } from "@/app/(pages)/provider";
+import { QueryProvider } from "@/app/(pages)/query-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -34,10 +34,10 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Provider>
+          <QueryProvider>
             <ThemeProvider
               attribute="class"
-              defaultTheme="system"
+              defaultTheme="light"
               enableSystem
               disableTransitionOnChange
             >
@@ -45,7 +45,7 @@ export default function RootLayout({
               {children}
               <Toaster />
             </ThemeProvider>
-          </Provider>
+          </QueryProvider>
         </body>
       </html>
     </SessionProvider>

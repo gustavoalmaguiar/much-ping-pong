@@ -2,7 +2,7 @@
 CREATE TYPE "MatchType" AS ENUM ('singles', 'duo');
 
 -- CreateEnum
-CREATE TYPE "RequirementType" AS ENUM ('winStreak', 'winCount', 'lossCount', 'xpGain', 'playMatches', 'specificWin', 'matchTypeCount');
+CREATE TYPE "RequirementType" AS ENUM ('winStreak', 'winCount', 'lossCount', 'xpGain', 'playMatches', 'matchTypeCount');
 
 -- CreateTable
 CREATE TABLE "players" (

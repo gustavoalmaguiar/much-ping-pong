@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Trophy } from 'lucide-react';
+import { Trophy } from "lucide-react";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 
@@ -19,7 +19,10 @@ export const columns: ColumnDef<Match>[] = [
     accessorKey: "type",
     header: "Type",
     cell: ({ row }) => {
-      const typeVariants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
+      const typeVariants: Record<
+        string,
+        "default" | "secondary" | "destructive" | "outline"
+      > = {
         singles: "secondary",
         duo: "default",
       };
@@ -62,7 +65,9 @@ export const columns: ColumnDef<Match>[] = [
   {
     accessorKey: "score",
     header: "Score",
-    cell: ({ row }) => <span className="font-mono">{row.getValue("score")}</span>,
+    cell: ({ row }) => (
+      <span className="font-mono">{row.getValue("score")}</span>
+    ),
   },
   {
     accessorKey: "createdAt",
@@ -78,4 +83,3 @@ export const columns: ColumnDef<Match>[] = [
     },
   },
 ];
-

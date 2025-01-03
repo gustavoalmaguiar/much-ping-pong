@@ -28,7 +28,7 @@ export default function TopPlayers() {
     return null;
   }
   if (!topPlayers) return null;
-  const name = topPlayers ? topPlayers[0].name ?? "Player" : "Player";
+  const name = topPlayers ? (topPlayers[0].name ?? "Player") : "Player";
   return (
     <Card>
       <CardHeader>
@@ -42,12 +42,12 @@ export default function TopPlayers() {
       <CardContent>
         <div className="space-y-4 p-2">
           {topPlayers.map((player: TopPlayer) => (
-            <div key={player.id} className="flex items-center space-x-4 hover:bg-muted/50 transition-colors">
+            <div
+              key={player.id}
+              className="flex items-center space-x-4 hover:bg-muted/50 transition-colors"
+            >
               <Avatar className="h-8 w-8">
-                <AvatarImage
-                  src={player.image ?? undefined}
-                  alt={name}
-                />
+                <AvatarImage src={player.image ?? undefined} alt={name} />
                 <AvatarFallback>
                   {name
                     .split(" ")
@@ -58,7 +58,8 @@ export default function TopPlayers() {
               <div className="flex-1 min-w-0">
                 <p className="truncate">{player.name}</p>
                 <p className="text-sm text-muted-foreground">
-                  {getLevelTier(calculateLevel(player.xp))} ({calculateLevel(player.xp)})
+                  {getLevelTier(calculateLevel(player.xp))} (
+                  {calculateLevel(player.xp)})
                 </p>
               </div>
               <div className="text-sm font-medium">{player.xp} XP</div>
