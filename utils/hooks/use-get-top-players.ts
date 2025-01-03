@@ -4,8 +4,6 @@ import { getTopPlayers } from "@/utils/actions/get-top-players";
 export function useGetTopPlayers() {
   return useQuery({
     queryKey: ["topPlayers"],
-    queryFn: async () => {
-      return await getTopPlayers();
-    },
+    queryFn: getTopPlayers,
   });
 }

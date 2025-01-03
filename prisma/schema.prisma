@@ -13,26 +13,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Player model for storing user information
-model Player {
-  id            String   @id @default(uuid()) @db.Uuid
-  name          String
-  email         String?  @unique
-  imageUrl      String?  @map("image_url")
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  // Player domain fields
   xp            Int      @default(0)
   wins          Int      @default(0)
   losses        Int      @default(0)
   currentStreak Int      @default(0) @map("current_streak")
   longestStreak Int      @default(0) @map("longest_streak")
   isAdmin       Boolean  @default(false) @map("is_admin")
-  createdAt     DateTime @default(now()) @map("created_at")
-
-  // Relations
   wonMatches  Match[]           @relation("Winners")
   lostMatches Match[]           @relation("Losers")
   challenges  PlayerChallenge[]
 
-  @@index([email])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
 }
 
 // Match model for recording game results
@@ -44,8 +85,8 @@ model Match {
   createdAt   DateTime  @default(now()) @map("created_at")
 
   // Relations
-  winners Player[] @relation("Winners")
-  losers  Player[] @relation("Losers")
+  winners User[] @relation("Winners")
+  losers  User[] @relation("Losers")
 
   @@map("matches")
 }
@@ -75,8 +116,8 @@ model PlayerChallenge {
   createdAt DateTime @default(now()) @map("created_at")
 
   // Relations
-  player      Player    @relation(fields: [playerId], references: [id])
-  playerId    String    @map("player_id") @db.Uuid
+  player      User    @relation(fields: [playerId], references: [id])
+  playerId    String    @map("player_id")
   challenge   Challenge @relation(fields: [challengeId], references: [id])
   challengeId String    @map("challenge_id") @db.Uuid
 

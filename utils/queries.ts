@@ -1,7 +1,7 @@
 import prisma from "@/lib/db";
 
 export async function fetchPlayerProfile(playerId: string) {
-  return prisma.player.findUnique({
+  return prisma.user.findUnique({
     where: { id: playerId },
     include: {
       challenges: {
@@ -42,14 +42,14 @@ export async function fetchMostRecentMatches(take: number) {
         select: {
           id: true,
           name: true,
-          imageUrl: true,
+          image: true,
         },
       },
       losers: {
         select: {
           id: true,
           name: true,
-          imageUrl: true,
+          image: true,
         },
       },
     },
@@ -57,13 +57,13 @@ export async function fetchMostRecentMatches(take: number) {
 }
 
 export async function fetchTopPlayers(take: number) {
-  return prisma.player.findMany({
+  return prisma.user.findMany({
     take: take,
     orderBy: [{ xp: "desc" }, { wins: "desc" }],
     select: {
       id: true,
       name: true,
-      imageUrl: true,
+      image: true,
       xp: true,
       wins: true,
       _count: {
@@ -90,14 +90,14 @@ export async function fetchAllMatches() {
         select: {
           id: true,
           name: true,
-          imageUrl: true,
+          image: true,
         },
       },
       losers: {
         select: {
           id: true,
           name: true,
-          imageUrl: true,
+          image: true,
         },
       },
     },

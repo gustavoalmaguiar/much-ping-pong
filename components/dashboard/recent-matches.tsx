@@ -7,11 +7,12 @@ import { Trophy, Users2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDistanceToNowStrict } from "date-fns";
 import { History } from "lucide-react";
+import Link from "next/link";
 
 interface Player {
   id: string;
-  name: string;
-  imageUrl: string | null;
+  name: string | null;
+  image: string | null;
 }
 
 interface Match {
@@ -25,10 +26,11 @@ interface Match {
 }
 
 function PlayerAvatar({ player }: { player: Player }) {
+  const name = player ? player.name ?? "Player" : "Player";
   return (
     <Avatar className="h-8 w-8 border-2 border-background">
-      <AvatarImage src={player.imageUrl ?? undefined} alt={player.name} />
-      <AvatarFallback>{player.name[0]}</AvatarFallback>
+      <AvatarImage src={player.image ?? undefined} alt={name} />
+      <AvatarFallback>{name[0]}</AvatarFallback>
     </Avatar>
   );
 }
@@ -98,10 +100,12 @@ export default function RecentMatches() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg flex items-center gap-2">
-          <History className="h-5 w-5" />
-          Recent Matches
-        </CardTitle>
+        <Link href="/matches" className="hover:underline">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <History className="h-5 w-5" />
+            Recent Matches
+          </CardTitle>
+        </Link>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">

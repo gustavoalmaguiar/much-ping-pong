@@ -1,7 +1,7 @@
 "use client";
 
 import PlayerStatsSkeleton from "@/components/dashboard/player-stats-skeleton";
-import { calculateLevel, calculateXPForNextLevel } from "@/utils/game-utils";
+import { calculateLevel, calculateXPForNextLevel, getLevelTier } from "@/utils/game-utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
@@ -22,23 +22,25 @@ export default function PlayerStats() {
   const nextLevelXP = calculateXPForNextLevel(level);
   const levelProgress =
     ((profile.xp - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100;
+  const name = profile ? profile.name ?? "Player" : "Player";
+  const tier = getLevelTier(level);
   return (
     <Card>
       <CardContent className="pt-6">
         <div className="flex items-center gap-4">
           <Avatar className="h-12 w-12 border-2 border-primary">
             <AvatarImage
-              src={profile.imageUrl ?? undefined}
-              alt={profile.name}
+              src={profile.image ?? undefined}
+              alt={name}
             />
-            <AvatarFallback>{profile.name[0]}</AvatarFallback>
+            <AvatarFallback>{name[0]}</AvatarFallback>
           </Avatar>
           <div className="grid">
             <h2 className="text-lg font-semibold">{profile.name}</h2>
-            <div className="text-sm text-muted-foreground">Level {level}</div>
+            <div className="text-sm text-muted-foreground">{tier}</div>
           </div>
         </div>
-        <div className="mt-6 space-y-6">
+        <div className="mt-4 space-y-6">
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">XP Progress</span>

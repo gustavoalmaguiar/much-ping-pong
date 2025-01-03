@@ -4,7 +4,7 @@ import prisma from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { calculateMatchXP } from "@/utils/game-utils";
 import type { MatchType } from "@prisma/client";
-import { auth } from "@/auth";
+import { evaluateAchievements } from "@/utils/achievement-service";
 
 interface CreateMatchParams {
   type: "singles" | "duo";
@@ -43,43 +43,48 @@ export async function createMatch({
       });
 
       // 2. Calculate XP and update stats
-      const xpGained = calculateMatchXP(winnerScore, loserScore);
+      const { winnerXP, loserXP } = calculateMatchXP(winnerScore, loserScore);
 
       // 3. Update winners
       await Promise.all(
         winnerIds.map(async (id) => {
-          const player = await tx.player.findUnique({ where: { id } });
+          const player = await tx.user.findUnique({ where: { id } });
           const newStreak = (player?.currentStreak ?? 0) + 1;
 
-          return tx.player.update({
+          await tx.user.update({
             where: { id },
             data: {
-              xp: { increment: xpGained },
+              xp: { increment: winnerXP },
               wins: { increment: 1 },
               currentStreak: { increment: 1 },
               longestStreak: Math.max(newStreak, player?.longestStreak ?? 0),
             },
           });
+
+          await evaluateAchievements(id, true, tx);
         }),
       );
 
       // 4. Update losers
       await Promise.all(
-        loserIds.map((id) =>
-          tx.player.update({
+        loserIds.map(async (id) => {
+          await tx.user.update({
             where: { id },
             data: {
+              xp: { increment: loserXP },
               losses: { increment: 1 },
               currentStreak: 0,
             },
-          }),
-        ),
+          });
+
+          await evaluateAchievements(id, false, tx);
+        }),
       );
 
       return match;
     });
 
-    revalidatePath("/dashboard");
+    revalidatePath("/");
     return match;
   } catch (error) {
     console.error("Error creating match:", error);

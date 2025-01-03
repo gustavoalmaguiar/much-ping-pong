@@ -4,7 +4,7 @@ import prisma from "@/lib/db";
 
 export async function getAllPlayers() {
   try {
-    const players = await prisma.player.findMany({
+    const players = await prisma.user.findMany({
       select: {
         id: true,
         name: true,

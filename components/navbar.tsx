@@ -15,8 +15,8 @@ const navItems = [
   { href: "/matches", label: "Matches", icon: Trophy },
   { href: "/rankings", label: "Rankings", icon: Users },
   { href: "/challenges", label: "Challenges", icon: Target },
-  { href: "/season", label: "Season", icon: Calendar },
-  { href: "/profile", label: "Profile", icon: User },
+  // { href: "/season", label: "Season", icon: Calendar },
+  // { href: "/profile", label: "Profile", icon: User },
 ];
 
 export function Navbar() {

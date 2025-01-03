@@ -5,7 +5,7 @@ import { calculateLevel } from "../game-utils";
 
 export async function getAllPlayerRankings() {
   try {
-    const players = await prisma.player.findMany({
+    const players = await prisma.user.findMany({
       select: {
         id: true,
         name: true,

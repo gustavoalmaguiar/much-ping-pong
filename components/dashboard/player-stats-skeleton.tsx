@@ -17,7 +17,7 @@ export default function PlayerStatsSkeleton() {
             <Skeleton className="h-4 w-24 mt-1" />
           </div>
         </div>
-        <div className="mt-6 space-y-6">
+        <div className="space-y-6 p-2">
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">XP Progress</span>

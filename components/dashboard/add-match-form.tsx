@@ -9,7 +9,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { MatchFormSkeleton } from "./match-form-skeleton";
 import { MatchPlayerSelect } from "./match-player-select";
 import { MatchScoreInput } from "./match-score-input";
-import type { Player } from "@prisma/client";
+import type { User } from "@prisma/client";
 import { createMatch } from "@/utils/actions/create-match";
 import { useAllPlayers } from "@/utils/hooks/use-all-players";
 import { useSession } from "next-auth/react";
@@ -38,17 +38,17 @@ export default function AddMatchForm() {
 
     return {
       winner1: players.filter(
-        (p) => !selectedPlayers.has(p.id) || p.id === winner1,
-      ) as Player[],
+        (u) => !selectedPlayers.has(u.id) || u.id === winner1,
+      ) as User[],
       winner2: players.filter(
-        (p) => !selectedPlayers.has(p.id) || p.id === winner2,
-      ) as Player[],
+        (u) => !selectedPlayers.has(u.id) || u.id === winner2,
+      ) as User[],
       loser1: players.filter(
-        (p) => !selectedPlayers.has(p.id) || p.id === loser1,
-      ) as Player[],
+        (u) => !selectedPlayers.has(u.id) || u.id === loser1,
+      ) as User[],
       loser2: players.filter(
-        (p) => !selectedPlayers.has(p.id) || p.id === loser2,
-      ) as Player[],
+        (u) => !selectedPlayers.has(u.id) || u.id === loser2,
+      ) as User[],
     };
   }, [players, winner1, winner2, loser1, loser2]);
 
@@ -80,7 +80,7 @@ export default function AddMatchForm() {
     if (!session.user?.id) {
       toast({
         title: "Error",
-        description: "User ID not found",
+        description: "Player ID not found",
         variant: "destructive",
       });
       return;
