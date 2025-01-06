@@ -8,10 +8,10 @@ import { Badge } from "@/components/ui/badge";
 type Match = {
   id: string;
   type: string;
-  winners: Array<{ id: string; name: string }>;
-  losers: Array<{ id: string; name: string }>;
+  winners: Array<{ id: string; name: string | null }>;
+  losers: Array<{ id: string; name: string | null }>;
   score: string;
-  createdAt: string;
+  createdAt: Date;
 };
 
 export const columns: ColumnDef<Match>[] = [

@@ -9,8 +9,8 @@ import { columns } from "@/components/matches/matches-table-columns";
 type Match = {
   id: string;
   type: string;
-  winners: Array<{ id: string; name: string }>;
-  losers: Array<{ id: string; name: string }>;
+  winners: Array<{ id: string; name: string | null }>;
+  losers: Array<{ id: string; name: string | null }>;
   score: string;
   createdAt: Date;
 };
@@ -20,14 +20,14 @@ interface MatchesClientProps {
 }
 
 export default function MatchesClient({ initialMatches }: MatchesClientProps) {
-  const [matches, setMatches] = useState(initialMatches);
+  const [matches] = useState(initialMatches);
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredMatches = matches.filter((match) =>
     match.winners
       .concat(match.losers)
       .some((player) =>
-        player.name.toLowerCase().includes(searchTerm.toLowerCase()),
+        player.name?.toLowerCase().includes(searchTerm.toLowerCase()),
       ),
   );
 

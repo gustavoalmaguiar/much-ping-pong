@@ -14,7 +14,7 @@ interface RankingsClientProps {
 export default function RankingsClient({
   initialPlayers,
 }: RankingsClientProps) {
-  const [players, setPlayers] = useState(initialPlayers);
+  const [players] = useState(initialPlayers);
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredPlayers = players.filter((player) =>

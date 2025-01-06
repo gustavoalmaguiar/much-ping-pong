@@ -7,11 +7,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ActiveChallenges } from "@/components/challenges/active-challenges";
 import { CompletedChallenges } from "@/components/challenges/completed-challenges";
 import { ChallengeForm } from "@/components/admin/challenge-form";
-import { Challenge, PlayerChallenge } from "@/types/challenges";
+import { Challenge, MatchType, PlayerChallenge } from "@/types/challenges";
 import { createChallenge } from "@/utils/actions/create-challenge";
 import { useToast } from "@/utils/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { RequirementType } from "@prisma/client";
 
 interface ChallengesClientProps {
   initialChallenges: Challenge[];
@@ -26,8 +27,8 @@ export function ChallengesClient({
   defaultTab,
   isAdmin,
 }: ChallengesClientProps) {
-  const [challenges, setChallenges] = useState<Challenge[]>(initialChallenges);
-  const [playerChallenges, setPlayerChallenges] = useState<PlayerChallenge[]>(
+  const [challenges] = useState<Challenge[]>(initialChallenges);
+  const [playerChallenges] = useState<PlayerChallenge[]>(
     initialPlayerChallenges,
   );
   const [activeTab, setActiveTab] = useState<"active" | "completed">(
@@ -43,8 +44,18 @@ export function ChallengesClient({
     router.push(`${pathname}?tab=${value}`);
   };
 
+  type ChallengeProps = {
+    title: string;
+    description: string;
+    requirementType: RequirementType;
+    xpReward: number;
+    isActive: boolean;
+    requirementValue: number;
+    matchType?: MatchType;
+  };
+
   const addChallenge = async (
-    newChallenge: Omit<Challenge, "id" | "createdAt">,
+    newChallenge: ChallengeProps,
   ) => {
     try {
       const result = await createChallenge(newChallenge);
@@ -109,7 +120,7 @@ export function ChallengesClient({
         <CardContent>
           {showForm && isAdmin ? (
             <div className="mb-8">
-              <ChallengeForm onSubmit={addChallenge} />
+              <ChallengeForm onSubmit={(challenge) => addChallenge(challenge as ChallengeProps)} />
             </div>
           ) : (
             <Tabs defaultValue={activeTab} onValueChange={handleTabChange}>

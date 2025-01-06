@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Challenge, MatchType, RequirementType } from "@prisma/client";
+import { MatchType, RequirementType } from "@prisma/client";
 
 const formSchema = z.object({
   requirementType: z.nativeEnum(RequirementType),

@@ -5,10 +5,14 @@ import { Challenge, PlayerChallenge } from "@/types/challenges";
 import { getChallenges } from "@/utils/actions/get-challenges";
 import { getAllPlayerChallenges } from "@/utils/actions/get-all-player-challenges";
 
+type tParams = Promise<{
+  tab?: string;
+}>;
+
 export default async function ChallengesPage({
-  searchParams,
+  searchParams
 }: {
-  searchParams: { tab?: string };
+  searchParams: tParams;
 }) {
   const session = await auth();
   const userId = session?.user?.id;

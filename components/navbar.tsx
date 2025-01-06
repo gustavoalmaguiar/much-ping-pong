@@ -6,9 +6,7 @@ import { cn } from "@/lib/utils";
 import {
   Trophy,
   Users,
-  User,
   Target,
-  Calendar,
   Home,
   Menu,
   X,
